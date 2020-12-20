@@ -12,7 +12,7 @@ cellSize = 2.0
 NODATA_d = -9999.9
 
 ############################################
-def generate_raster_ascii(fname, cols, rows, xll, yll, cell, nodata, low=0.1, high=10.0):
+def generate_raster_ascii(fname, cols, rows, xll, yll, cell, nodata, low=0.1, high=10.0, tick=20.0):
     '''
     '''
     with open('../data/' + fname, 'w') as w:
@@ -24,17 +24,19 @@ def generate_raster_ascii(fname, cols, rows, xll, yll, cell, nodata, low=0.1, hi
         w.write(f'NODATA_value \t {nodata} \n')
 
         temp = np.random.uniform(low=low, high=high, size=(rows,cols))
+        threshold = (high - low) / tick
 
         for irow in range(rows):
             for icol in range(cols):
-                if temp[irow][icol] <= (low + (high - low) / 10.0):
-                    w.write('%10.3f'.format(nodata))
-                elif temp[irow][icol] >= (high - (high - low) / 10.0):
-                    w.write('%10.3f'.format(nodata))
+                if temp[irow][icol] <= (low + threshold):
+                    w.write('{:10.3f}'.format(nodata))
+                elif temp[irow][icol] >= (high - threshold):
+                    w.write('{:10.3f}'.format(nodata))
                 else:
-                    w.write('%10.3f'.format(temp[irow][icol]))
+                    w.write('{:10.3f}'.format(temp[irow][icol]))
                 w.write(' ')
             w.write('\n')
 
+############################################
 if __name__ == '__main__':
-    generate_raster_ascii(filename, ncols, nrows, xllCorner, yllCorner, cellsize, NODATA_d)
+    generate_raster_ascii(filename, ncols, nrows, xllCorner, yllCorner, cellSize, NODATA_d)
