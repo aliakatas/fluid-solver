@@ -38,6 +38,7 @@ Grid::Grid(const char* fname) {
         prepare_coordinates();
         read_data_from_ascii(asciiFile);
         asciiFile.close();
+        state = 0;
     }
     else
         state = -1;
