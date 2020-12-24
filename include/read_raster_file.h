@@ -41,9 +41,11 @@ public:
     void read_data_from_ascii(std::ifstream& fileStream);
 };
 
-
 int get_int_val(std::ifstream& fileStream, const char* field);
 
 double get_double_val(std::ifstream& fileStream, const char* field);
 
+const char* get_ascii_reader_version();
+
+const char* get_ascii_reader_comp_version();
 

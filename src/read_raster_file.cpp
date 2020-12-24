@@ -170,3 +170,40 @@ double get_double_val(std::ifstream& fileStream, const char* field) {
     return out;
 }
 
+const char* get_ascii_reader_version() {
+    char date[] = __DATE__;
+    char time[] = __TIME__;
+
+    char* buildTime = new char[32];
+    memset(buildTime, 0, 32);
+    if (buildTime) {
+        strncat(buildTime, date, 12);
+        strncat(buildTime, " ", 1);
+        strncat(buildTime, time, 12);
+    }
+
+    return buildTime;
+}
+
+const char* get_ascii_reader_comp_version() {
+    char* compVer = new char[32];
+    memset(compVer, 0, 32);
+
+#ifdef __INTEL_COMPILER
+    char compiler[] = "Intel C++ ";
+    sprintf(compVer, "%d.%d", __INTEL_COMPILER / 10000, __INTEL_COMPILER % 10000);
+#else
+    char compiler[] = "MSVC ";
+    sprintf(compVer, "%d.%d", _MSC_VER / 100, _MSC_VER % 100);
+#endif
+
+    char* compVersion = new char[32];
+    memset(compVersion, 0, 32);
+    if (compVersion) {
+        strncat(compVersion, compiler, 12);
+        strncat(compVersion, compVer, 12);
+    }
+
+    delete[] compVer;
+    return compVersion;
+}
