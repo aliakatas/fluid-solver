@@ -30,8 +30,13 @@ Grid::Grid(const char* fname) {
         header.cellSize = get_double_val(asciiFile, "cellsize");
         header.NODATA_d = get_double_val(asciiFile, "NODATA_value");
 
+        if (!prepare_data_storage()) {
+            state = -1;
+            return;
+        }
 
-
+        prepare_coordinates();
+        read_data_from_ascii(asciiFile);
         asciiFile.close();
     }
     else
@@ -57,24 +62,20 @@ bool Grid::prepare_data_storage() {
     data = (double*)malloc(rows * cols * sizeof(double));
     if (!data) {
         printf("ERROR: Memory could not be allocated for Grid::data...\n");
-        state = -1;
         return false;
     }
 
     x = (double*)malloc(rows * cols * sizeof(double));
     if (!x) {
         printf("ERROR: Memory could not be allocated for Grid::x...\n");
-        state = -1;
         return false;
     }
     y = (double*)malloc(rows * cols * sizeof(double));
     if (!y) {
         printf("ERROR: Memory could not be allocated for Grid::y...\n");
-        state = -1;
         return false;
     }
     
-    state = 0;
     return true;
 }
 
@@ -89,6 +90,15 @@ bool Grid::prepare_coordinates() {
         }
     }
     return true;
+}
+
+void Grid::fill_with_nodata() {
+    int N = header.ncols * header.nrows;
+    // may worth exploring an alternative to memset()?
+    if (data) {
+        for (auto i = 0; i < N; ++i)
+            data[i] = header.NODATA_d;
+    }
 }
 
 void Grid::print() {
@@ -106,6 +116,38 @@ void Grid::print() {
     printf("    NODATA :: %f \n", header.NODATA_d);
     if (state > 0)
         printf("Grid may not ready to use... \n ");
+}
+
+void Grid::show_active() {
+    int idx = 0;
+    if (data) {
+        for (auto irow = 0; irow < header.nrows; ++irow) {
+            for (auto icol = 0; icol < header.ncols; ++icol) {
+                idx = header.ncols * irow + icol;
+                if (data[idx] > header.NODATA_d)
+                    printf("%s", "+");
+                else 
+                    printf("%s", "O");
+            }
+            printf("\n");
+        }
+    }
+    else
+        printf("Data not allocated...\n");
+}
+
+void Grid::read_line_to_data(std::ifstream& fileStream, double* row) {
+    std::string line;
+    std::getline(fileStream, line);
+    std::stringstream ss(line);
+
+    for (auto icol = 0; icol < header.ncols; ++icol)
+        ss >> row[icol];
+}
+
+void Grid::read_data_from_ascii(std::ifstream& fileStream) {
+    for (auto irow = 0; irow < header.nrows; ++irow)
+        read_line_to_data(fileStream, &(data[header.ncols * irow]));
 }
 
 int get_int_val(std::ifstream& fileStream, const char* field) {

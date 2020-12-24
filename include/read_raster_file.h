@@ -30,7 +30,15 @@ public:
 
     bool prepare_coordinates();
 
+    void fill_with_nodata();
+
     void print();
+
+    void show_active();
+
+    void read_line_to_data(std::ifstream& fileStream, double* row);
+    
+    void read_data_from_ascii(std::ifstream& fileStream);
 };
 
 

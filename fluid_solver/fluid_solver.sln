@@ -8,6 +8,9 @@ EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "utilities", "..\utilities\utilities.pyproj", "{118EB2F3-6404-4566-AF44-76856DBD20E8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "main_test", "main_test\main_test.vcxproj", "{7D1FFE93-A704-4867-85D0-3BC1D0896DAA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2AC2CDA7-CA3C-4099-88D1-839F8FC71DAB} = {2AC2CDA7-CA3C-4099-88D1-839F8FC71DAB}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
