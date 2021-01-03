@@ -41,6 +41,16 @@ public:
     void read_data_from_ascii(std::ifstream& fileStream);
 
     void get_size(int* rows, int* cols);
+
+    const double* get_data();
+
+    double get_xll();
+
+    double get_yll();
+
+    double get_cellsize();
+
+    double get_nodata_val();
 };
 
 int get_int_val(std::ifstream& fileStream, const char* field);

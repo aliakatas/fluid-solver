@@ -156,6 +156,27 @@ void Grid::get_size(int* rows, int* cols) {
     *cols = header.ncols;
 }
 
+const double* Grid::get_data() {
+    const double* out = data;
+    return out;
+}
+
+double Grid::get_xll() {
+    return header.xllCorner;
+}
+
+double Grid::get_yll() {
+    return header.yllCorner;
+}
+
+double Grid::get_cellsize() {
+    return header.cellSize;
+}
+
+double Grid::get_nodata_val() {
+    return header.NODATA_d;
+}
+
 int get_int_val(std::ifstream& fileStream, const char* field) {
     std::string line;
     std::getline(fileStream, line);
