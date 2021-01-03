@@ -151,6 +151,11 @@ void Grid::read_data_from_ascii(std::ifstream& fileStream) {
         read_line_to_data(fileStream, &(data[header.ncols * irow]));
 }
 
+void Grid::get_size(int* rows, int* cols) {
+    *rows = header.nrows;
+    *cols = header.ncols;
+}
+
 int get_int_val(std::ifstream& fileStream, const char* field) {
     std::string line;
     std::getline(fileStream, line);

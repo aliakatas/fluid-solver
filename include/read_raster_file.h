@@ -39,6 +39,8 @@ public:
     void read_line_to_data(std::ifstream& fileStream, double* row);
     
     void read_data_from_ascii(std::ifstream& fileStream);
+
+    void get_size(int* rows, int* cols);
 };
 
 int get_int_val(std::ifstream& fileStream, const char* field);

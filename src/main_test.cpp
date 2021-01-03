@@ -2,6 +2,8 @@
 #include "write_results_netcdf.h"
 #include <stdio.h>
 
+#define EXAMPLE_NC "../../data/example_results.nc"
+
 int main(int argc, char* argv[]) {
     printf("2D Fluid Solver starting... \n");
 
@@ -20,6 +22,14 @@ int main(int argc, char* argv[]) {
     printf("\n");
     tempGrid.show_active();
     printf("\n");
+
+    int nrows = 0;
+    int ncols = 0;
+    tempGrid.get_size(&nrows, &ncols);
+    NCIDS ncid;
+    bool ok = open_nc_file_to_write(EXAMPLE_NC, nrows, ncols, ncid);
+    
+
 
     printf("Goodbye!\n\n");
     return 0;
